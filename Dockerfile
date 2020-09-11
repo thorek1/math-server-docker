@@ -95,7 +95,7 @@ ADD texlive.profile texlive.profile
 # non-interactive http://www.tug.org/pipermail/tex-live/2008-June/016323.html
 # Official link: http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
 
-ENV TEXLIVE_VERSION 2019
+ENV TEXLIVE_VERSION 2020
 
 RUN wget http://mirrors.rit.edu/CTAN/systems/texlive/Images/texlive$TEXLIVE_VERSION.iso \
     && wget http://mirrors.rit.edu/CTAN/systems/texlive/Images/texlive$TEXLIVE_VERSION.iso.md5 \
@@ -109,14 +109,14 @@ RUN wget http://mirrors.rit.edu/CTAN/systems/texlive/Images/texlive$TEXLIVE_VERS
 # Uncomment lines below to update TeX Live to latest packages
 # Sets texlive update mirror
 # https://tex.stackexchange.com/questions/378210/installing-tl-using-iso-leads-to-local-unknown-repository-tlpdb
-#RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet
-#RUN tlmgr update --self --all --reinstall-forcibly-removed
+RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet
+RUN tlmgr update --self --all --reinstall-forcibly-removed
 
 ENV PATH /usr/local/texlive/distribution/bin/x86_64-linux:$PATH
 
 # GIT - https://git-scm.com/
 # http://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/#
-ENV GIT_VER 2.24.1
+ENV GIT_VER 2.28.0
 
 RUN wget https://www.kernel.org/pub/software/scm/git/git-$GIT_VER.tar.gz \
     && tar xf git-$GIT_VER.tar.gz && cd git-$GIT_VER \
@@ -129,8 +129,8 @@ RUN git config --global url."https://".insteadOf git://
 
 # llvm needs CMake 2.8.12.2 or higher
 # https://cmake.org/download/
-ENV CMAKE_VER_MAJ 3.16
-ENV CMAKE_VER_MIN .1
+ENV CMAKE_VER_MAJ 3.18
+ENV CMAKE_VER_MIN .2
 ENV CMAKE_VER $CMAKE_VER_MAJ$CMAKE_VER_MIN
 
 RUN wget https://cmake.org/files/v$CMAKE_VER_MAJ/cmake-$CMAKE_VER.tar.gz \
@@ -159,7 +159,7 @@ RUN npm config set proxy ${http_proxy} \
 
 # Anaconda
 # https://repo.continuum.io/archive
-ENV CONDA_VER 2019.10
+ENV CONDA_VER 2020.07
 
 ENV PATH $PATH:/usr/local/conda/anaconda3/bin
 
@@ -215,7 +215,7 @@ RUN yum -y install \
 RUN echo 'options(repos = c(CRAN="https://ftp.osuosl.org/pub/cran/"))' >> /usr/lib64/R/library/base/R/Rprofile
 
 # RStudio - https://www.rstudio.com/products/rstudio/download-server/
-ENV RSTUDIO_VER 1.2.5019
+ENV RSTUDIO_VER 1.3.1073
 
 RUN wget https://download2.rstudio.org/server/centos6/x86_64/rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm \
     && echo "748bd5a45f1c386b538da9be83203c24 rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm" > RSTUDIOMD5 \
@@ -226,7 +226,7 @@ RUN wget https://download2.rstudio.org/server/centos6/x86_64/rstudio-server-rhel
     && rm -f rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm && rm -f RSTUDIOMD5
 
 # Shiny - https://www.rstudio.com/products/shiny/download-server/
-ENV SHINY_VER 1.5.12.933
+ENV SHINY_VER 1.5.14.948
 
 RUN R -e 'install.packages("shiny", repos="https://cran.rstudio.com/")' \
     && wget https://download3.rstudio.org/centos6.3/x86_64/shiny-server-$SHINY_VER-x86_64.rpm \
@@ -238,8 +238,8 @@ RUN R -e 'install.packages("shiny", repos="https://cran.rstudio.com/")' \
     && cd && rm -f SHINYSERVERMD5 && rm -f shiny-server-$SHINY_VER-x86_64.rpm
 
 # Julia - https://julialang.org/downloads/
-ENV JULIA_VER_MAJ 1.3
-ENV JULIA_VER_MIN .0
+ENV JULIA_VER_MAJ 1.5
+ENV JULIA_VER_MIN .1
 ENV JULIA_VER $JULIA_VER_MAJ$JULIA_VER_MIN
 
 RUN wget https://julialang-s3.julialang.org/bin/linux/x64/$JULIA_VER_MAJ/julia-$JULIA_VER-linux-x86_64.tar.gz \
@@ -255,7 +255,10 @@ ENV JULIA_PKGDIR /usr/local/julia/share/julia/site
 RUN yum -y install czmq-devel && yum clean all
 
 RUN R -e "install.packages('IRkernel')"
-
+RUN R -e "install.packages('tidyverse')"
+RUN R -e "install.packages('rio')"
+RUN R -e "rio::install_formats()"
+RUN R -e "install.packages('pacman')"
 RUN R -e "IRkernel::installspec(user = FALSE)"
 
 # Optional configuration file for svn
@@ -314,42 +317,42 @@ RUN yum install -y mongodb-org
 #################
 
 # Optional libraries for packages
-#RUN yum -y install \
-#   cyrus-sasl-devel \
-#   freeglut \
-#   freeglut-devel \
-#   freetype-devel \
-#   geos-devel \
-#   gdal-devel \
-#   glpk-devel \
-#   gsl-devel \
-#   gtk3-devel \
-#   hdf5 \
-#   ImageMagick \
-#   lcms2-devel \
-#   libjpeg-devel \
-#   libpng \
-#   libpng-devel \
-#   libtiff-devel \
-#   libtool \
-#   libwebp-devel \
-#   libxslt-devel \
-#   libxml2-devel \
-#   libzip-devel \
-#   mpfr-devel \
-#   pandoc \
-#   proj-devel \
-#   proj-epsg \
-#   proj-nad \
-#   tcl-devel \
-#   tk-devel \
-#   && yum clean all
-
 RUN yum -y install \
-    hdf5 \
-    libxml2-devel \
-    libzip-devel \
-    && yum clean all
+   cyrus-sasl-devel \
+   freeglut \
+   freeglut-devel \
+   freetype-devel \
+   geos-devel \
+   gdal-devel \
+   glpk-devel \
+   gsl-devel \
+   gtk3-devel \
+   hdf5 \
+   ImageMagick \
+   lcms2-devel \
+   libjpeg-devel \
+   libpng \
+   libpng-devel \
+   libtiff-devel \
+   libtool \
+   libwebp-devel \
+   libxslt-devel \
+   libxml2-devel \
+   libzip-devel \
+   mpfr-devel \
+   pandoc \
+   proj-devel \
+   proj-epsg \
+   proj-nad \
+   tcl-devel \
+   tk-devel \
+   && yum clean all
+
+#RUN yum -y install \
+#    hdf5 \
+#    libxml2-devel \
+#    libzip-devel \
+#    && yum clean all
 
 # http://ipyparallel.readthedocs.org/en/latest/
 #RUN ipcluster nbextension enable
@@ -366,7 +369,7 @@ RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
 RUN conda install altair --channel conda-forge -y
 
 # Plotly for Python
-RUN conda install plotly -y
+RUN conda install plotly scipy seaborn -y
 
 ####################
 ## Services
