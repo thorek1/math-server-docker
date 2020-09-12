@@ -218,9 +218,9 @@ RUN echo 'options(repos = c(CRAN="https://ftp.osuosl.org/pub/cran/"))' >> /usr/l
 ENV RSTUDIO_VER 1.3.1073
 
 RUN wget https://download2.rstudio.org/server/centos6/x86_64/rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm \
-    && echo "748bd5a45f1c386b538da9be83203c24 rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm" > RSTUDIOMD5 \
-    && RESULT=$(md5sum -c RSTUDIOMD5) \
-    && echo ${RESULT} > ~/check-rstudio-md5.txt \
+#    && echo "748bd5a45f1c386b538da9be83203c24 rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm" > RSTUDIOMD5 \
+#    && RESULT=$(md5sum -c RSTUDIOMD5) \
+#    && echo ${RESULT} > ~/check-rstudio-md5.txt \
     && yum -y install --nogpgcheck rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm \
     && yum clean all \
     && rm -f rstudio-server-rhel-$RSTUDIO_VER-x86_64.rpm && rm -f RSTUDIOMD5
