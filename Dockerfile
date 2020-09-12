@@ -109,10 +109,10 @@ RUN wget http://mirrors.rit.edu/CTAN/systems/texlive/Images/texlive$TEXLIVE_VERS
 # Uncomment lines below to update TeX Live to latest packages
 # Sets texlive update mirror
 # https://tex.stackexchange.com/questions/378210/installing-tl-using-iso-leads-to-local-unknown-repository-tlpdb
+ENV PATH /usr/local/texlive/distribution/bin/x86_64-linux:$PATH
+
 RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet
 RUN tlmgr update --self --all --reinstall-forcibly-removed
-
-ENV PATH /usr/local/texlive/distribution/bin/x86_64-linux:$PATH
 
 # GIT - https://git-scm.com/
 # http://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/#
