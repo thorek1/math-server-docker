@@ -301,12 +301,12 @@ RUN git clone --depth=1 https://anongit.freedesktop.org/git/uchardet/uchardet.gi
 ENV JAVA_HOME /etc/alternatives/java_sdk
 
 # Redis (https://redis.io)
-RUN wget http://download.redis.io/redis-stable.tar.gz \
-    && tar xf redis-stable.tar.gz \
-    && cd redis-stable \
-    && make -j"$(nproc --all)" \
-    && make install \
-    && cd .. && rm -rf redis-stable && rm -f redis-stable.tar.gz
+#RUN wget http://download.redis.io/redis-stable.tar.gz \
+#    && tar xf redis-stable.tar.gz \
+#    && cd redis-stable \
+#    && make -j"$(nproc --all)" \
+#    && make install \
+#    && cd .. && rm -rf redis-stable && rm -f redis-stable.tar.gz
 
 # MongoDB (https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/)
 ADD mongodb-org-4.2.repo /etc/yum.repos.d/mongodb-org-4.2.repo
