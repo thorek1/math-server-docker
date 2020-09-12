@@ -212,7 +212,7 @@ RUN yum -y install \
     && yum clean all
 
 # Set default CRAN Mirror
-RUN echo 'options(repos = c(CRAN="https://ftp.osuosl.org/pub/cran/"))' >> /usr/lib64/R/library/base/R/Rprofile
+RUN echo 'options(repos = c(CRAN="https://cran.rstudio.com/"))' >> /usr/lib64/R/library/base/R/Rprofile
 
 # RStudio - https://www.rstudio.com/products/rstudio/download-server/
 ENV RSTUDIO_VER 1.3.1073
